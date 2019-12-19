@@ -9,6 +9,9 @@ verify_ssl = true
 googletrans = "*"
 pyautogui = "*"
 pytesseract = "*"
+flask = "*"
+pillow = "*"
+clipboard = "*"
 
 [requires]
 python_version = "3.8"
