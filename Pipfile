@@ -12,6 +12,8 @@ pytesseract = "*"
 flask = "*"
 pillow = "*"
 clipboard = "*"
+flask-sqlalchemypip = "*"
+flask-sqlalchemy = "*"
 
 [requires]
 python_version = "3.8"

@@ -1,3 +1,8 @@
+#pytesseract windows install w64
+#https://github.com/UB-Mannheim/tesseract/wiki
+
+
+
 from googletrans import Translator
 import pytesseract
 import pyautogui
@@ -10,12 +15,12 @@ import sqlalchemy
 from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-#pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 translator = Translator()
 newtext = ''
 oldtext = ''
 checktext = ''
-
+backgroundlink = 'https://www.languageperfect.com/appimages/backgrounds/'
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'zbnjlbrkns'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite3'
@@ -25,6 +30,24 @@ engine = sqlalchemy.create_engine('sqlite:///db.sqlite3',connect_args={'check_sa
 session = sessionmaker(bind=engine)()
 base = declarative_base()
 
+def deletebackground():
+    screenx, screeny = pyautogui.size()
+    pyautogui.moveTo(screenx, screeny/2)
+    pyautogui.press('enter')
+    pyautogui.hotkey('ctrl','leftshift','c')
+    time.sleep(2)
+    d='down'
+    r='right'
+    delete='delete'
+    wait=0.1
+    strokes=[d,d,d,d,r,d,d,r,d,d,r,d,d,r,d,r,d,d,r,d,r,d,d,r,d,delete]
+    for stroke in strokes:
+        pyautogui.press(stroke)
+        time.sleep(wait)
+    pyautogui.hotkey('ctrl','leftshift','c')
+    time.sleep(1)
+    
+
 class Words(db.Model):
     id = id = db.Column(db.Integer, primary_key=True)
     german = db.Column(db.String(999), unique=True, nullable=False)
@@ -32,15 +55,20 @@ class Words(db.Model):
 
 check = False
 verticalline = True
-
+screenx, screeny = pyautogui.size()
 if __name__ == '__main__':
     time.sleep(4)
+    #deletebackground()
+    #pyautogui.press('escape')
     while True:
         time.sleep(1.5)
-        image = pyautogui.screenshot(region=(12, 398, 1382, 140))#region=(748,752, 1800, 200)
+        image = pyautogui.screenshot(region=(0, screeny/3, screenx, screeny/3))#region=(748,752, 1800, 200)
         image.save("epic.png")
         oldtext= newtext
         newtext = pytesseract.image_to_string(image)
+        newtext = newtext.replace('Translate from German to English','')
+        newtext.replace('replay','')
+        newtext.replace('show hint','')
         if newtext.find('Your answer') != -1:
             try:
                 remove = Words.query.filter_by(german=oldtext).first()
@@ -50,11 +78,13 @@ if __name__ == '__main__':
                 pass
 
             #image = pyautogui.screenshot(region=(477, 354, 600, 95))#region=(1024,696, 928, 75)
-            #image.save("epic1.png")
+            #image.save("epic1.png")     
             x, y = pyautogui.locateCenterOnScreen('line.png')
-            pyautogui.click(button='left', clicks=3, interval=0.25, x=x, y=y)
+            pyautogui.click(button='left', clicks=3, interval=0.25, x=x+30, y=y+6)
             pyautogui.hotkey('ctrl', 'c')
             answer = clipboard.paste()
+            pyautogui.moveTo(screenx/5,screeny/5)
+            
             if verticalline:
                     if answer.find('|') != -1:
                         position = answer.find('|')
