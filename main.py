@@ -3,7 +3,7 @@ import pytesseract
 import pyautogui
 import time
 import clipboard
-
+#https://www.languageperfect.com/appimages/backgrounds/
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 import sqlalchemy
