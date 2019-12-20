@@ -31,7 +31,7 @@ class Words(db.Model):
     english = db.Column(db.String(999), nullable=False)
 
 check = False
-verticalline = False
+verticalline = True
 
 if __name__ == '__main__':
     time.sleep(4)
@@ -42,29 +42,27 @@ if __name__ == '__main__':
         oldtext= newtext
         newtext = pytesseract.image_to_string(image)
         if newtext.find('Your answer') != -1:
-            # if check == True:
-            #     try:
-            #         remove = Words.query.filter_by(german=checktext).first()
-            #         db.session.delete(remove)
-            #         db.session.commit
-            #         check = False
-            #     except:
-            #         check = False
+            try:
+                remove = Words.query.filter_by(german=oldtext).first()
+                db.session.delete(remove)
+                db.session.commit
+            except:
+                pass
 
             #image = pyautogui.screenshot(region=(477, 354, 600, 95))#region=(1024,696, 928, 75)
             #image.save("epic1.png")
-            pyautogui.click(button='left', clicks=3, interval=0.25, x=477, y=369)
+            x, y = pyautogui.locateCenterOnScreen('line.png')
+            pyautogui.click(button='left', clicks=3, interval=0.25, x=x, y=y)
             pyautogui.hotkey('ctrl', 'c')
             answer = clipboard.paste()
             if verticalline:
-                while verticalline:
-                    if answer.find(' | ') != -1:
-                        position = answer.find(' | ')
+                    if answer.find('|') != -1:
+                        position = answer.find('|')
                         answer = answer[:position:]
                     else:
-                        break
+                        pass
             else:
-                answer.replace('|', 'I')
+                pass
 
             find = Words.query.filter_by(german = oldtext).first()
             if find is None:
@@ -76,26 +74,21 @@ if __name__ == '__main__':
         else:
             try:
                 translated = Words.query.filter_by(german = newtext).first().english
-                # check = True
-                # checktext = newtext
             except:
                 pos = newtext.find('(')
                 translatext = newtext
                 if pos != -1:
                     translatext = newtext[:pos:]
-                while verticalline:
-                    if translatext.find(' | ') != -1:
-                        position = translated.find(' | ')
+                if verticalline:
+                    if translatext.find('|') != -1:
+                        position = translatext.find('|')
                         translatext = translatext[:position:]
                     else:
-                        translatext.replace('|', 'I')
+                        pass
                 print("translatext: " + translatext)
                 translated = str(translator.translate(translatext).text)
             if translated == '':
                 translated = 'it'
-            if translated == 'Vike':
-                translated = 'I like'
-            
             pyautogui.hotkey('ctrl', 'a')
             pyautogui.typewrite(translated)
             print("translated: " + translated)
