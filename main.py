@@ -3,7 +3,7 @@
 
 
 
-from googletrans import Translator
+
 import pytesseract
 import pyautogui
 import time
@@ -16,7 +16,6 @@ from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
-translator = Translator()
 newtext = ''
 oldtext = ''
 checktext = ''
@@ -105,18 +104,7 @@ if __name__ == '__main__':
             try:
                 translated = Words.query.filter_by(german = newtext).first().english
             except:
-                pos = newtext.find('(')
-                translatext = newtext
-                if pos != -1:
-                    translatext = newtext[:pos:]
-                if verticalline:
-                    if translatext.find('|') != -1:
-                        position = translatext.find('|')
-                        translatext = translatext[:position:]
-                    else:
-                        pass
-                print("translatext: " + translatext)
-                translated = str(translator.translate(translatext).text)
+                translated = ''
             if translated == '':
                 translated = 'it'
             pyautogui.hotkey('ctrl', 'a')
