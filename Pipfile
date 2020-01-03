@@ -4,6 +4,7 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+pylint = "*"
 
 [packages]
 googletrans = "*"
@@ -12,7 +13,6 @@ pytesseract = "*"
 flask = "*"
 pillow = "*"
 clipboard = "*"
-flask-sqlalchemypip = "*"
 flask-sqlalchemy = "*"
 
 [requires]

@@ -3,7 +3,6 @@
 
 
 
-
 import pytesseract
 import pyautogui
 import time
@@ -29,23 +28,6 @@ engine = sqlalchemy.create_engine('sqlite:///db.sqlite3',connect_args={'check_sa
 session = sessionmaker(bind=engine)()
 base = declarative_base()
 
-def deletebackground():
-    screenx, screeny = pyautogui.size()
-    pyautogui.moveTo(screenx, screeny/2)
-    pyautogui.press('enter')
-    pyautogui.hotkey('ctrl','leftshift','c')
-    time.sleep(2)
-    d='down'
-    r='right'
-    delete='delete'
-    wait=0.1
-    strokes=[d,d,d,d,r,d,d,r,d,d,r,d,d,r,d,r,d,d,r,d,r,d,d,r,d,delete]
-    for stroke in strokes:
-        pyautogui.press(stroke)
-        time.sleep(wait)
-    pyautogui.hotkey('ctrl','leftshift','c')
-    time.sleep(1)
-    
 
 class Words(db.Model):
     id = id = db.Column(db.Integer, primary_key=True)
@@ -57,8 +39,6 @@ verticalline = True
 screenx, screeny = pyautogui.size()
 if __name__ == '__main__':
     time.sleep(4)
-    #deletebackground()
-    #pyautogui.press('escape')
     while True:
         time.sleep(1.5)
         image = pyautogui.screenshot(region=(0, screeny/3, screenx, screeny/3))#region=(748,752, 1800, 200)
