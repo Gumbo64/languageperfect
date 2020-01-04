@@ -1,3 +1,8 @@
+#Put mouse in any of the corners to stop the bot
+#Copy the ypos here
+ypos = 163
+
+
 import pyautogui
 import time
 import clipboard
@@ -28,8 +33,6 @@ class Words(db.Model):
 check = False
 verticalline = True
 screenx, screeny = pyautogui.size()
-ypos = 163 
-
 if __name__ == '__main__':
     time.sleep(4)
     while True:
@@ -74,8 +77,7 @@ if __name__ == '__main__':
                 translated = Words.query.filter_by(german = newtext).first().english
             except:
                 translated = 'it'
-            else:
-                pyautogui.click(150, ypos+30, button='left')
+            pyautogui.click(150, ypos+30, button='left')
             clipboard.copy(translated)
             pyautogui.hotkey('ctrl','v')
         pyautogui.press('enter')
