@@ -7,9 +7,7 @@ verify_ssl = true
 pylint = "*"
 
 [packages]
-googletrans = "*"
 pyautogui = "*"
-pytesseract = "*"
 flask = "*"
 pillow = "*"
 clipboard = "*"
