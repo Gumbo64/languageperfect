@@ -42,9 +42,8 @@ if __name__ == '__main__':
                 db.session.delete(remove)
                 db.session.commit
             except:
-                pass     
-            pyautogui.hotkey('ctrl', 'c')
-            unfiltered = clipboard.paste()
+                pass
+            unfiltered = newtext
             start = unfiltered.find('Correct answer') + 14
             end = unfiltered.find('Your answer')
             unfiltered = unfiltered[start:end:]
@@ -66,6 +65,8 @@ if __name__ == '__main__':
             else:
                 find.english = answer
             db.session.commit()
+            time.sleep(1.3)
+
         else:
             try:
                 translated = Words.query.filter_by(german = newtext).first().english
